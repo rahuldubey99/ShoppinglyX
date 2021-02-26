@@ -10,6 +10,7 @@ STATE_CHOICES = (
     ('Chattishgarh','Chattishgarh'),
     ('Uttar Pradesh','Uttar Pradesh'),
     ('Best Bengal','Best Bengal'),
+    ('Delhi','Delhi'),
 
 )
 class Customer(models.Model):

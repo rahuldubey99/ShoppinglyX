@@ -1,0 +1,1 @@
+web: waitresses-server --port=$PORT shopping.wsgi:application

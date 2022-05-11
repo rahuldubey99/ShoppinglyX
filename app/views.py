@@ -15,7 +15,8 @@ class ProductView(View):
         bottomwears = Product.objects.filter(category = 'BW')
         mobiles = Product.objects.filter(category = 'M')
         if request.user.is_authenticated:
-            totalitem = len(Cart.objects.filter(user=request.user))
+            totalitem = len([p for p in Cart.objects.all()
+                            if p.user == request.user and p.quantity != 0])
         return render(request, 'app/home.html', {'topwears':topwears, 'bottomwears':bottomwears,'mobiles':mobiles,'totalitem':totalitem})
 @method_decorator(login_required, name="dispatch")
 class ProductDetailView(View):
@@ -37,21 +38,26 @@ def add_to_cart(request):
 @login_required
 def show_cart(request):
     if request.user.is_authenticated:
+        
         user = request.user
         cart = Cart.objects.filter(user=user)
         amount = 0.0
         shipping_amount = 70.0
         total_amount = 0.0
-        cart_product = [p for p in  Cart.objects.all() if p.user == user]
+        cart_product = [p for p in  Cart.objects.all() if p.user == user and p.quantity!=0]
+        print(" \n \n cart",user,"\n",cart_product, "\n \n")
         if cart_product:
             for p in cart_product:
                  tempamount = (p.quantity * p.product.discounted_price)
                  amount += tempamount
                  total_amount = amount + shipping_amount
-            return render(request, 'app/addtocart.html',{'carts':cart,'totalamount':total_amount,'amount':amount})
+            
+            return render(request, 'app/addtocart.html',{'carts':cart_product,'totalamount':total_amount,'amount':amount})
         else:
             return render(request, 'app/emptycart.html')
 
+
+@login_required
 def plus_cart(request):
     if request.method == 'GET':
         prod_id = request.GET['prod_id']
@@ -72,6 +78,8 @@ def plus_cart(request):
             }
         return JsonResponse(data)
 
+
+@login_required
 def minus_cart(request):
     if request.method == 'GET':
         prod_id = request.GET['prod_id']
@@ -92,6 +100,8 @@ def minus_cart(request):
             }
         return JsonResponse(data)
 
+
+@login_required
 def remove_cart(request):
     if request.method == 'GET':
         prod_id = request.GET['prod_id']
@@ -99,7 +109,7 @@ def remove_cart(request):
         c.delete()
         amount = 0.0
         shipping_amount = 70.0
-        cart_product = [p for p in  Cart.objects.all() if p.user == request.user]
+        cart_product = [p for p in  Cart.objects.all() if p.user == request.user and p.quantity!=0]
         for p in cart_product:
             tempamount = (p.quantity * p.product.discounted_price)
             amount += tempamount
@@ -111,6 +121,8 @@ def remove_cart(request):
             }
         return JsonResponse(data)
 
+
+@login_required
 def buy_now(request):
  return render(request, 'app/buynow.html')
 
@@ -122,7 +134,7 @@ def address(request):
 @login_required
 def orders(request):
  op = OrderPlaced.objects.filter(user=request.user)
-
+ print("\n \n ",op,"\n ",op[1].quantity,"\n \n")
  return render(request, 'app/orders.html',{'order_placed':op})
 
 def mobile(request, data=None):

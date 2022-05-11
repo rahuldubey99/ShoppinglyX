@@ -21,13 +21,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['SECREAT_KEY']
+# SECRET_KEY = os.environ['SECREAT_KEY']
+SECRET_KEY = 'django-insecure-pe!0#+lwcc4yreory+s&f-scilhfrcn=gk36ht94^5lm_k0&x^'
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True  
 
-ALLOWED_HOSTS = ["shoppingxly.herokuapp.com",'localhost']
+ALLOWED_HOSTS = ["shoppingxly.herokuapp.com",'*']
 
 
 # Application definition
@@ -125,6 +126,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR/'static'
 MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR/ 'media'
 LOGIN_REDIRECT_URL ='/profile/'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-SESSION_ENGINE = "django.contrib.sessions.backends.db"
+# SESSION_ENGINE = "django.contrib.sessions.backends.db"

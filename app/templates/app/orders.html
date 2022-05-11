@@ -12,17 +12,23 @@
   </div>
   <div class="col-sm-9 offset-sm-1">
   {% for op in order_placed %}
+  {% if op.quantity  %}
    <div class="row shadow-sm mb-3">
     <div class="col-sm-2">
         <img src="{{op.product.product_Image.url}}" alt="" class="img-fluid" height="150" width="150">
     </div>
     <div class="col-sm-7">
         <p>Product: {{op.product.title}}</p>
-        <p>Quantity: {{op.product.quantity}}</p>
+        <p>Quantity: {{op.quantity}}</p>
         <p>Price: {{op.total_cost}}</p>
     </div>
     <div class="col-sm-3 fw-bold">
         <p>Order Status: {{op.status}}</p>
+        {% if op.status == 'Cancel' %}
+            <div class="progress">
+                <div class="progress-bar bg-danger" role="progressbar" aria-valuemin="100" aria-valuemax="100" aria-valuenow="100" style="width:100%"></div>
+            </div>
+        {% endif %}
         {% if op.status == 'Accepted' %}
             <div class="progress">
                 <div class="progress-bar bg-info" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="20" style="width:20%"></div>
@@ -30,7 +36,7 @@
         {% endif %}
         {% if op.status == 'Packed' %}
             <div class="progress">
-                <div class="progress-bar bg-info" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="40" style="width:40%"></div>
+                <div class="progress-bar bg-primary" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="40" style="width:40%"></div>
             </div>
         {% endif %}
         
@@ -42,11 +48,13 @@
         
         {% if op.status == 'Delivered' %}
             <div class="progress">
-                <div class="progress-bar bg-warning" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" style="width:100%"></div>
+                <div class="progress-bar bg-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" style="width:100%"></div>
             </div>
         {% endif %}
     </div>
     </div>
+    {% endif %}
+
    {% endfor %}
   </div>
  </div>

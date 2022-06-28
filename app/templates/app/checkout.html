@@ -12,7 +12,7 @@
         <div class="card-body">
           <h5>Product: {{item.product.title}}</h5>
           <p>Quantity: {{item.quantity}}</p>
-          <p class="fw-bold">Price: {{item.total_cost}}</p>
+          <p class="fw-bold">Price: {{item.product.discounted_price}}</p>
         </div>
       </div>
       {% endfor %}
@@ -51,7 +51,7 @@
 
 {% block payment-gateway %}
         <!-- Include the PayPal JavaScript SDK -->
-    <script src="https://www.paypal.com/sdk/js?client-id=AchGMM--WkcwOXeMCZ4G9UNpzVwdaw6vfd3j1iL0JPgxUt9vIO2ABbXxvoegUL1DXbnRKt8p7wsgoz_f&currency=USD"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AZs4L1yho4_lxA-6PFLIoxDO72iJfFLnBXpH38c_f_y072rM6ph0Rrrvojqn98A6TiBFmx_91AA555IN&currency=USD"></script>
 
     <script>
         // Render the PayPal button into #paypal-button-container

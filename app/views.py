@@ -45,9 +45,10 @@ def show_cart(request):
         shipping_amount = 70.0
         total_amount = 0.0
         cart_product = [p for p in  Cart.objects.all() if p.user == user and p.quantity!=0]
-        print(" \n \n cart",user,"\n",cart_product, "\n \n")
+        # print(" \n \n cart",user,"\n",cart_product, "\n \n")
         if cart_product:
             for p in cart_product:
+                 print(" \n \n cart :", p, "\n \n")
                  tempamount = (p.quantity * p.product.discounted_price)
                  amount += tempamount
                  total_amount = amount + shipping_amount
@@ -178,12 +179,15 @@ def checkout(request):
 
 @login_required
 def payment_done(request):
+    # breakpoint()
     user = request.user
     custid = request.GET.get('custid')
     customer = Customer.objects.get(id=custid)
     cart = Cart.objects.filter(user=user)
+    print(user, custid, customer, cart)
     for c in cart:
         OrderPlaced(user=user,customer=customer,product = c.product,quantity=c.quantity).save()
+        
         c.delete()
     return redirect("orders")
 
